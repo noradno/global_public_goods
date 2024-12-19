@@ -23,22 +23,6 @@ df_crs_orig <- df_crs_remote |>
   )|>
   collect()
 
-# df_crs_orig |> 
-#   filter(year %in% c(2002:2014)) |> 
-#   group_by(year) |> 
-#   summarise(usd = sum(usd_disbursement_defl, na.rm = TRUE)) |> 
-#   ungroup()
-
-# df_crs_orig |> 
-#   filter(year %in% c(2002:2014)) |> 
-#   group_by(year) |> 
-#   summarise(usd = sum(usd_disbursement_defl, na.rm = TRUE)) |> 
-#   ungroup() |> 
-#   ggplot(aes(x = year, y = usd)) +
-#   geom_line() +
-#   scale_y_continuous(limits = c(0, NA))
-  
-
 # GPGs
 df_sectors_gpg <- read_csv("data/processed/sector_codes_gpg_mapping.csv")
 
@@ -130,12 +114,12 @@ df_gpg_amounts <- df_gpg_summary |>
       .default = category
     ))
 
-p1a <- df_gpg_amounts |>
+p_promotion_consequences_amounts <- df_gpg_amounts |>
   ggplot(aes(x = year, y = value, color = category)) +
   geom_line() +
   scale_y_continuous(limits = c(0, NA), labels = label_number(big.mark = ",")) +
   labs(
-    title = "Total bilateral ODA and GPG support",
+    title = "Total bilateral ODA and provision of GPGs\nand tackling consequences of global challenges",
     subtitle = "Bilateral ODA from OECD DAC-countries. US dollar, Millions, 2022. Gross disbursements",
     color = NULL,
     x = NULL,
@@ -147,7 +131,7 @@ p1a <- df_gpg_amounts |>
   guides(color = guide_legend(reverse = TRUE, nrow = 2))
 
 
-ggsave("df_gpg_summary_amounts.svg", p1a, width = 8, height = 5)
+ggsave("output/p_promotion_consequences_amounts.svg", p_promotion_consequences_amounts, width = 8, height = 5)
 
 df_gpg_shares <- df_gpg_summary |> 
   select(year, share_gpg, share_gpg_promotion, share_gpg_consequences) |> 
@@ -164,18 +148,20 @@ df_gpg_shares <- df_gpg_summary |>
   ))
 
 # Figures percentages: Fig 1. ODA for Global Public Goods: Provision of GPGs\nand Tackling Concequences of Global Challenges. GPG share of gross bilateral ODA disbursements from OECD DAC
-p1b <- df_gpg_shares |>
+p_provision_consequences_shares <- df_gpg_shares |>
   filter(category != "GPGs total") |> 
   mutate(category = fct_rev(category)) |> 
-  ggplot(aes(x = year, y = value, fill = category)) +
-  # geom_line(linewidth = 1.3) +
-  geom_area() +
-  scale_y_continuous(labels = label_percent(accuracy = 1), limits = c(0, 0.5), expand = c(0,0)) +
+  ggplot(aes(x = year, y = value, color = category)) +
+  #geom_area() +
+  geom_line(lwd = 1.4) +
+  scale_y_continuous(labels = label_percent(accuracy = 1), limits = c(0, 0.3), expand = c(0,0)) +
   scale_x_continuous(labels = as.integer, expand = c(0, 0)) +
-  scale_fill_manual(values = c("#9acce8", "#03542d")) +
+  scale_color_manual(values = c("#9acce8", "#03542d")) +
   labs(
-title = NULL,
-subtitle = NULL,
+# title = NULL,
+title = "ODA for provision of GPGs and tackling consequences of\nglobal challenges",
+# subtitle = NULL,
+subtitle = "Share of gross bilateral ODA disbursements from OECD DAC countries",
     color = NULL,
     fill = NULL,
     x = NULL,
@@ -184,12 +170,14 @@ subtitle = NULL,
   theme(
     legend.position = "bottom",
     plot.margin = margin(t = 3, r = 10, b = 3, l = 3, unit = "mm"),
-    legend.text = element_text(size = 14, family = "Arial")
+    legend.text = element_text(size = 14, family = "Arial"),
+    panel.grid.minor.y = element_line(color = "grey"),
+    panel.grid.major.y = element_line(color = "grey"),
   ) +
-    guides(fill = guide_legend(nrow = 1, reverse = TRUE))
+    guides(color = guide_legend(nrow = 1, reverse = TRUE))
 
 
-ggsave("df_gpg_summary_shares.svg", p1b, width = 6.5, height = 4)
+ggsave("output/p_provision_consequences_shares.svg", p_provision_consequences_shares, width = 8, height = 5)
 
 # Test Total ODA
 df_gpg_summary |>
@@ -201,7 +189,7 @@ df_gpg_summary |>
 # If policy marker criteria is met and gpg is false gpg theme should be x.
 # Then the mitigation and biodiversity is not complete but only activities not in other sectors.
 # GPG provision
-p2a <- df_crs |>
+p_provision <- df_crs |>
   filter(gpg_promotion == TRUE) |>
   group_by(year, gpg_theme) |>
   summarise(usd = sum(usd_disbursement_defl, na.rm = TRUE)) |>
@@ -214,7 +202,7 @@ p2a <- df_crs |>
   scale_x_continuous(labels = as.integer, expand = c(0, 0)) +  # Right expansion
   labs(
     title = "Fig 2. ODA for provision of GPGs",
-    subtitle = "OECD DAC-members. US dollar, Millions, 2022. Gross disbursements",
+    subtitle = "Gross bilateral ODA disbursements from OECD DAC countries. US dollar, Millions, 2022",
     fill = NULL,
     x = NULL,
     y = NULL
@@ -223,11 +211,11 @@ p2a <- df_crs |>
   guides(fill = guide_legend(nrow = 3, reverse = TRUE))
 
 
-ggsave("df_gpg_support.svg", p2a, width = 8, height = 5)
+ggsave("output/p_provision.svg", p_provision, width = 8, height = 5)
 
 # Adressing global challenges
 # GPG provision
-p2b <- df_crs |>
+p_consequences <- df_crs |>
   filter(gpg_consequences == TRUE) |>
   group_by(year, gpg_theme) |>
   summarise(usd = sum(usd_disbursement_defl, na.rm = TRUE)) |>
@@ -241,8 +229,8 @@ p2b <- df_crs |>
     scale_y_continuous(labels = label_number(big.mark = ","), expand = c(0, 0)) +
     scale_x_continuous(labels = as.integer, expand = c(0, 0)) +  # Right expansion
   labs(
-    title = "Fig 3. ODA for tackling Consequences of Global Challenges",
-    subtitle = "OECD DAC-members. US dollar, Millions, 2022. Gross disbursements",
+    title = "Fig 3. ODA for tackling consequences of global challenges",
+    subtitle = "Gross bilateral ODA disbursements from OECD DAC countries. US dollar, Millions, 2022",
     fill = NULL,
     x = NULL,
     y = NULL
@@ -251,4 +239,4 @@ p2b <- df_crs |>
   guides(fill = guide_legend(nrow = 2, reverse = TRUE))
 
 
-ggsave("df_gpg_challenges.svg", p2b, width = 9, height = 5)
+ggsave("output/p_consequences.svg", p_consequences, width = 8, height = 5)
