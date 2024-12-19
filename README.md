@@ -1,6 +1,6 @@
 
 
-# Measuring ODA for provision of GPGs and Efforts to Tackle Concequences of Global Challenges
+# Measuring ODA for provision of GPGs and Efforts to Tackle Consequences of Global Challenges
 
 ## Methodology
 
