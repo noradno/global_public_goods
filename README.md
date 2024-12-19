@@ -4,13 +4,14 @@
 
 ## Methodology
 
-To measure bilateral ODA for global public goods (GPGs), we have drawn
-inspiration from existing methodologies by [Development
+To measure bilateral ODA for promoting GPGs and tackling consequences of
+global challenges we have drawn inspiration from existing methodologies
+by [Development
 Initiatives](https://devinit.org/wp-content/uploads/2016/07/Measuring-aid-to-global-public-goods-GPGs-Discussion-paper-July-2016.pdf)
 and the
 [OECD](https://www.oecd.org/en/publications/development-co-operation-and-the-provision-of-global-public-goods_aff8cba9-en.html)
-to measure development finance for global public goods, but our approach
-is somewhat narrower in focus on global public goods. Additionally, we
+to measure development finance for global public goods. Our approach is
+somewhat narrower in focus on global public goods. Additionally, we
 emphasize the distinction between provision of GPGs and for tackling the
 consequences of global challenges. This exercise is not precise, but we
 have made an approximate classification.
@@ -25,13 +26,16 @@ global challenges, and the categorisation is available
 
 In addition to sector codes, we have used the OECD Rio markers for
 Climate Change Adaptation, Climate Change Mitigation, and Biodiversity.
-These are activities not already included using the sector codes. -
-Activities with Climate change adaptation as a principal objective is
-included as tackling consequences of global challenges. - Activities
-with Climate change mitigation as a principal objective is included as
-GPG promting GPGs - Activities with Bio-diversity as principal objective
-in sector 41010 General Environmental Protection is included as GPG
-promotion.
+These are activities not already included using the sector codes.
+
+- Activities with Climate change adaptation as a principal objective is
+  included as tackling consequences of global challenges.
+
+- Activities with Climate change mitigation as a principal objective is
+  included as promoting GPGs
+
+- Activities with Bio-diversity as principal objective in DAC sector
+  41010 General Environmental Protection is included as GPG promotion.
 
 In <a href="#fig-2" class="quarto-xref">Figure 2</a> and
 <a href="#fig-3" class="quarto-xref">Figure 3</a>, we have created
